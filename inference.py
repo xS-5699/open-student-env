@@ -95,6 +95,3 @@ Return format:
 print("[END]")
 
 import time
-
-while True:
-    time.sleep(60)

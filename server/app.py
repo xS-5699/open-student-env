@@ -6,8 +6,7 @@ env = StudentEnv()
 
 @app.post("/reset")
 def reset():
-    state = env.reset("medium")
-    return {"state": state}
+    return {"state": env.reset("medium")}
 
 @app.post("/step")
 def step(action: dict):
@@ -22,3 +21,6 @@ def step(action: dict):
 @app.get("/state")
 def state():
     return env.state()
+
+def main():
+    return app

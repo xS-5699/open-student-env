@@ -1,0 +1,39 @@
+name: open-student-env
+description: RL environment simulating academic workload and assignment prioritization
+
+version: 1.0
+
+entrypoint: env.environment:StudentEnv
+
+tasks:
+  - name: easy
+    difficulty: easy
+    description: Simple assignment prioritization
+
+  - name: medium
+    difficulty: medium
+    description: Multiple assignments with varying deadlines
+
+  - name: hard
+    difficulty: hard
+    description: Complex multi-assignment planning with penalties
+
+observation_space:
+  assignments:
+    type: list
+  time_available:
+    type: int
+  team_status:
+    type: dict
+
+action_space:
+  prioritize:
+    type: string
+  allocate_time:
+    type: integer
+  assign_to:
+    type: string
+
+reward:
+  type: float
+  range: [0.0, 1.0]

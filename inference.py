@@ -93,5 +93,3 @@ Return format:
 
 
 print("[END]")
-
-import time

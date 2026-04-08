@@ -1,3 +1,12 @@
+---
+title: OpenStudentEnv
+emoji: 🤖
+colorFrom: blue
+colorTo: purple
+sdk: docker
+app_file: inference.py
+pinned: false
+---
 # OpenStudentEnv — RL Environment for Academic Task Management
 
 ## Overview

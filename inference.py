@@ -73,18 +73,24 @@ Return format:
                 output = response.choices[0].message.content
 
             except Exception:
-                output = """{
-"prioritize": "AI Report",
-"allocate_time": 1,
-"assign_to": "member2"
-}"""
+                assignments = state["assignments"]
+                best = min(assignments, key=lambda x: x["deadline"])
+
+                output = json.dumps({
+                    "prioritize": best["name"],
+                    "allocate_time": 1,
+                    "assign_to": "member2"
+                })
 
         else:
-            output = """{
-"prioritize": "AI Report",
-"allocate_time": 1,
-"assign_to": "member2"
-}"""
+            assignments = state["assignments"]
+            best = min(assignments, key=lambda x: x["deadline"])
+
+            output = json.dumps({
+                "prioritize": best["name"],
+                "allocate_time": 1,
+                "assign_to": "member2"
+            })
 
         print("Model Output:", output)
 
@@ -92,9 +98,12 @@ Return format:
             json_match = re.search(r"\{.*\}", output, re.DOTALL)
             action = json.loads(json_match.group())
 
-        except:
+        except Exception:
+            assignments = state["assignments"]
+            best = min(assignments, key=lambda x: x["deadline"])
+
             action = {
-                "prioritize": "AI Report",
+                "prioritize": best["name"],
                 "allocate_time": 1,
                 "assign_to": "member2"
             }

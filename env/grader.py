@@ -1,13 +1,6 @@
 def grade(total_reward, max_steps=3):
     """
     Normalize total reward into score between 0.0 and 1.0
-
-    Parameters:
-    - total_reward : float
-    - max_steps : int (episode length)
-
-    Returns:
-    - score between 0.0 and 1.0
     """
 
     max_possible = max_steps * 1.0
@@ -22,9 +15,7 @@ def grade(total_reward, max_steps=3):
 
 def grade_task(task_name, total_reward):
     """
-    Task-specific grading (easy, medium, hard)
-
-    Harder tasks slightly weighted for fairness
+    Task-specific grading
     """
 
     difficulty_weights = {

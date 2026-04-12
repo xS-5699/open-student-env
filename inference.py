@@ -26,6 +26,7 @@ else:
 env = StudentEnv()
 
 tasks = ["easy", "medium", "hard"]
+assert len(tasks) >= 3
 
 for task in tasks:
 
@@ -109,5 +110,6 @@ Return format:
 
     print(f"[END TASK] {task} Total Reward:", total_reward)
     print(f"[SCORE] {task}:", score)
+    print(f"[TASK COMPLETE] {task} score={score}")
 
 print("[END]")

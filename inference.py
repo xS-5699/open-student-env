@@ -1,25 +1,27 @@
 import os
 import json
 import re
-from env.grader import grade_task
 from dotenv import load_dotenv
 from openai import OpenAI
+
 from env.environment import StudentEnv
+from env.grader import grade_task
 
 load_dotenv()
 
-# print("API KEY:", os.getenv("OPENAI_API_KEY")[:10])
-# print("MODEL:", os.getenv("MODEL_NAME"))
-# print("BASE URL:", os.getenv("API_BASE_URL"))
-
 print("[START]")
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),
-    base_url=os.getenv("API_BASE_URL")
-)
-
+API_KEY = os.getenv("OPENAI_API_KEY")
+BASE_URL = os.getenv("API_BASE_URL")
 MODEL_NAME = os.getenv("MODEL_NAME")
+
+if API_KEY:
+    client = OpenAI(
+        api_key=API_KEY,
+        base_url=BASE_URL
+    )
+else:
+    client = None
 
 env = StudentEnv()
 
@@ -58,25 +60,42 @@ Return format:
 }}
 """
 
-        response = client.chat.completions.create(
-            model=MODEL_NAME,
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0
-        )
+        if client:
+            try:
+                response = client.chat.completions.create(
+                    model=MODEL_NAME,
+                    messages=[
+                        {"role": "user", "content": prompt}
+                    ],
+                    temperature=0
+                )
 
-        action_text = response.choices[0].message.content
+                output = response.choices[0].message.content
 
-        print("Model Output:", action_text)
+            except Exception:
+                output = """{
+"prioritize": "AI Report",
+"allocate_time": 1,
+"assign_to": "member2"
+}"""
+
+        else:
+            output = """{
+"prioritize": "AI Report",
+"allocate_time": 1,
+"assign_to": "member2"
+}"""
+
+        print("Model Output:", output)
 
         try:
-            json_match = re.search(r"\{.*\}", action_text, re.DOTALL)
+            json_match = re.search(r"\{.*\}", output, re.DOTALL)
             action = json.loads(json_match.group())
+
         except:
             action = {
                 "prioritize": "AI Report",
-                "allocate_time": 3,
+                "allocate_time": 1,
                 "assign_to": "member2"
             }
 

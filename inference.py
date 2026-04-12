@@ -108,7 +108,11 @@ Return format:
     score = grade_task(task, total_reward)
 
     print(f"[END TASK] {task} Total Reward:", total_reward)
-    print(f"[SCORE] {task}:", score)
+
+    print(json.dumps({
+        "task": task,
+        "score": float(score)
+    }))
 
 
 print("[END]")
